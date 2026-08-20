@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MER-P0-T0-C1</title>
+<style>
+  :root {
+    --paper:#F4F4F1; --card:#FFFFFF; --ink:#17191C; --muted:#6C7075;
+    --border:#E4E3DE; --accent:#2E4E7E; --accent-soft:#ECF1F8;
+    --ok:#2C6A4E; --ok-soft:#E8F1EC; --next:#8A5714; --next-soft:#F8F0E2;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:var(--sans); background:var(--paper); color:var(--ink);
+    padding:2rem 1rem; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .card { max-width:720px; margin:0 auto; background:var(--card);
+    border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+  .header { display:flex; align-items:flex-start; justify-content:space-between;
+    gap:1rem; padding:1.5rem 1.5rem 1.25rem; border-bottom:1px solid var(--border); }
+  .id { font-family:var(--mono); font-size:12px; font-weight:600;
+    letter-spacing:0.04em; color:var(--accent); }
+  .title { font-size:18px; font-weight:600; color:var(--ink); margin-top:5px; }
+  .meta { font-size:12px; color:var(--muted); margin-top:4px; }
+  .link { font-family:var(--mono); font-size:12px; color:var(--accent);
+    text-decoration:none; background:var(--accent-soft);
+    border:1px solid rgba(46,78,126,0.18); padding:5px 11px; border-radius:7px;
+    white-space:nowrap; }
+  .link:hover { background:#E0E9F4; }
+  .link:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  .row { display:grid; grid-template-columns:120px 1fr; gap:1rem;
+    padding:0.95rem 1.5rem; border-bottom:1px solid var(--border); }
+  .row:last-child { border-bottom:none; }
+  .label { font-size:11px; font-weight:600; letter-spacing:0.08em;
+    color:var(--muted); text-transform:uppercase; padding-top:2px; }
+  .value { font-size:14px; color:var(--ink); }
+  .value.mono { font-family:var(--mono); font-size:12px; color:var(--muted);
+    line-height:1.8; word-break:break-word; }
+  .out-line { display:flex; gap:0.6rem; align-items:baseline; }
+  .out-line + .out-line { margin-top:0.7rem; }
+  .tag { flex:none; font-family:var(--sans); font-size:11px; font-weight:600;
+    padding:2px 9px; border-radius:5px; }
+  .tag.confirmed { background:var(--ok-soft); color:var(--ok); }
+  .tag.next { background:var(--next-soft); color:var(--next); }
+  @media (max-width:560px) {
+    body { padding:1rem 0.75rem; }
+    .header { flex-direction:column; gap:0.85rem; }
+    .row { grid-template-columns:1fr; gap:0.35rem; padding:0.9rem 1.1rem; }
+  }
+  @media print {
+    body { background:#fff; padding:0; }
+    .card { border-color:#ccc; break-inside:avoid; page-break-inside:avoid; }
+    .link { background:none; border:none; padding:0; }
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div>
+        <div class="id">MER-P0-T0-C1</div>
+        <div class="title">Checkpoint system setup</div>
+        <div class="meta">Part 0, setup — process documentation before any work starts</div>
+      </div>
+      <a class="link" href="https://claude.ai/share/00000000-0000-0000-0000-000000000000" target="_blank" rel="noopener">chat log ↗</a>
+    </div>
+
+    <div class="row">
+      <div class="label">Framing</div>
+      <div class="value">The Meridian Labs take-home requires submitting the AI chat logs alongside the deliverables. Raw transcripts satisfy the letter of that requirement but not its intent — nobody reads twelve conversations, and the reviewer's actual question is where the human judgment sat. The problem was how to produce readable process documentation without spending a full day cleaning up transcripts after the work was already done.</div>
+    </div>
+    <div class="row">
+      <div class="label">Decision</div>
+      <div class="value">Set up a per-task checkpoint card generated at the end of each session, capturing framing, decision, AI gap, judgment call, naming, and output, with a link to the source log. Rejected writing a process summary at the end (recall degrades, and the specific moments of correction are exactly what gets forgotten first) and rejected annotating the transcripts inline (still requires the reviewer to read them).</div>
+    </div>
+    <div class="row">
+      <div class="label">AI gap</div>
+      <div class="value">The first schema Claude proposed had a "lessons learned" row, which produced generic reflection on every test card — the kind of content that reads as filler. Cut it and replaced it with "AI gap", which forces a specific, checkable claim instead of a sentiment.</div>
+    </div>
+    <div class="row">
+      <div class="label">Judgment call</div>
+      <div class="value">Added an explicit instruction that an empty AI gap must be stated as empty rather than filled with a soft critique. The failure mode of a self-reported process log is manufactured self-awareness, and a reviewer spots it immediately. One honest "no significant gap" makes the other eleven cards credible.</div>
+    </div>
+    <div class="row">
+      <div class="label">Naming</div>
+      <div class="value mono">MER-P0-T0-C1 · checkpoint_card.html · CLAUDE.md (PREFIX: MER)</div>
+    </div>
+    <div class="row">
+      <div class="label">Output</div>
+      <div class="value">
+        <div class="out-line"><span class="tag confirmed">confirmed</span><span>Checkpoint schema and card template finalized. Project instructions installed — every subsequent task ends with "set checkpoint".</span></div>
+        <div class="out-line"><span class="tag next">next</span><span>Part 1, Task 1 — read the brief and scope the assignment.</span></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

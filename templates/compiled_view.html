@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!-- Fill {{TOKENS}} and repeat the <div class="card"> block once per checkpoint,
+     in chronological order, separated by <div class="divider"></div>.
+     Card markup is identical to templates/checkpoint_card.html. Delete this comment. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PREFIX}} — Checkpoint log</title>
+<style>
+  :root {
+    --paper:#F4F4F1; --card:#FFFFFF; --ink:#17191C; --muted:#6C7075;
+    --border:#E4E3DE; --accent:#2E4E7E; --accent-soft:#ECF1F8;
+    --ok:#2C6A4E; --ok-soft:#E8F1EC; --next:#8A5714; --next-soft:#F8F0E2;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:var(--sans); background:var(--paper); color:var(--ink);
+    padding:2rem 1rem; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .card { max-width:720px; margin:0 auto; background:var(--card);
+    border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+  .header { display:flex; align-items:flex-start; justify-content:space-between;
+    gap:1rem; padding:1.5rem 1.5rem 1.25rem; border-bottom:1px solid var(--border); }
+  .id { font-family:var(--mono); font-size:12px; font-weight:600;
+    letter-spacing:0.04em; color:var(--accent); }
+  .title { font-size:18px; font-weight:600; color:var(--ink); margin-top:5px; }
+  .meta { font-size:12px; color:var(--muted); margin-top:4px; }
+  .link { font-family:var(--mono); font-size:12px; color:var(--accent);
+    text-decoration:none; background:var(--accent-soft);
+    border:1px solid rgba(46,78,126,0.18); padding:5px 11px; border-radius:7px;
+    white-space:nowrap; }
+  .link:hover { background:#E0E9F4; }
+  .link:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  .row { display:grid; grid-template-columns:120px 1fr; gap:1rem;
+    padding:0.95rem 1.5rem; border-bottom:1px solid var(--border); }
+  .row:last-child { border-bottom:none; }
+  .label { font-size:11px; font-weight:600; letter-spacing:0.08em;
+    color:var(--muted); text-transform:uppercase; padding-top:2px; }
+  .value { font-size:14px; color:var(--ink); }
+  .value.mono { font-family:var(--mono); font-size:12px; color:var(--muted);
+    line-height:1.8; word-break:break-word; }
+  .out-line { display:flex; gap:0.6rem; align-items:baseline; }
+  .out-line + .out-line { margin-top:0.7rem; }
+  .tag { flex:none; font-family:var(--sans); font-size:11px; font-weight:600;
+    padding:2px 9px; border-radius:5px; }
+  .tag.confirmed { background:var(--ok-soft); color:var(--ok); }
+  .tag.next { background:var(--next-soft); color:var(--next); }
+
+  /* Compiled-view additions */
+  .cover { max-width:720px; margin:0 auto 1.75rem; background:var(--card);
+    border:1px solid var(--border); border-radius:14px; padding:1.6rem 1.5rem; }
+  .cover .id { margin-bottom:6px; }
+  .cover h1 { font-size:20px; font-weight:600; letter-spacing:-0.01em; }
+  .cover-stats { display:flex; flex-wrap:wrap; gap:1.75rem; margin-top:1.15rem;
+    padding-top:1.15rem; border-top:1px solid var(--border); }
+  .stat-label { font-size:11px; font-weight:600; letter-spacing:0.08em;
+    color:var(--muted); text-transform:uppercase; }
+  .stat-value { font-family:var(--mono); font-size:14px; color:var(--ink); margin-top:3px; }
+  .divider { max-width:720px; margin:1.75rem auto; border-top:1px solid var(--border); }
+  @media (max-width:560px) {
+    body { padding:1rem 0.75rem; }
+    .header { flex-direction:column; gap:0.85rem; }
+    .row { grid-template-columns:1fr; gap:0.35rem; padding:0.9rem 1.1rem; }
+    .cover-stats { gap:1.1rem; }
+  }
+  @media print {
+    body { background:#fff; padding:0; }
+    .card, .cover { border-color:#ccc; break-inside:avoid; page-break-inside:avoid; }
+    .divider { border-color:#ddd; }
+    .link { background:none; border:none; padding:0; }
+  }
+</style>
+</head>
+<body>
+  <div class="cover">
+    <div class="id">{{PREFIX}} — CHECKPOINT LOG</div>
+    <h1>{{COMPILATION_TITLE}}</h1>
+    <div class="cover-stats">
+      <div>
+        <div class="stat-label">Checkpoints</div>
+        <div class="stat-value">{{TOTAL_COUNT}}</div>
+      </div>
+      <div>
+        <div class="stat-label">Parts covered</div>
+        <div class="stat-value">{{PARTS_COVERED}}</div>
+      </div>
+      <div>
+        <div class="stat-label">Compiled</div>
+        <div class="stat-value">{{COMPILED_DATE}}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARDS:START — everything between these markers is replaced.
+       Repeat the card block per checkpoint, chronological, divider between each. -->
+  <div class="card">
+    <div class="header">
+      <div>
+        <div class="id">{{CHECKPOINT_ID}}</div>
+        <div class="title">{{TITLE}}</div>
+        <div class="meta">{{SESSION_DESCRIPTOR}}</div>
+      </div>
+      <a class="link" href="{{SHARE_URL}}" target="_blank" rel="noopener">chat log ↗</a>
+    </div>
+    <div class="row">
+      <div class="label">Framing</div>
+      <div class="value">{{FRAMING}}</div>
+    </div>
+    <div class="row">
+      <div class="label">Decision</div>
+      <div class="value">{{DECISION}}</div>
+    </div>
+    <div class="row">
+      <div class="label">AI gap</div>
+      <div class="value">{{AI_GAP}}</div>
+    </div>
+    <div class="row">
+      <div class="label">Judgment call</div>
+      <div class="value">{{JUDGMENT_CALL}}</div>
+    </div>
+    <div class="row">
+      <div class="label">Naming</div>
+      <div class="value mono">{{NAMING}}</div>
+    </div>
+    <div class="row">
+      <div class="label">Output</div>
+      <div class="value">
+        <div class="out-line"><span class="tag confirmed">confirmed</span><span>{{OUTPUT_CONFIRMED}}</span></div>
+        <div class="out-line"><span class="tag next">next</span><span>{{OUTPUT_NEXT}}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <!-- CARDS:END -->
+</body>
+</html>
