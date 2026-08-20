@@ -114,17 +114,40 @@ const partsCovered =
 
 const body = cards.map((c) => c.html).join('\n\n  <div class="divider"></div>\n\n  ');
 
-const compiled = readFileSync(TEMPLATE, "utf8")
-  .replace(/<!--[\s\S]*?-->\n?/, "") // strip the guide comment
-  .replace(
-    /  <!-- CARDS:START[\s\S]*?<!-- CARDS:END -->/,
-    `  ${body}`
-  )
-  .replaceAll("{{PREFIX}}", prefixes[0] || "CP")
-  .replace("{{COMPILATION_TITLE}}", process.env.CHECKPOINT_TITLE || "Process documentation")
+/**
+ * Escape a replacement value. String.replace treats $&, $1, $` and $' in the
+ * replacement as substitution patterns, so card prose containing a dollar sign
+ * would be silently rewritten.
+ */
+const lit = (s) => s.replaceAll("$", "$$$$");
+
+let template = readFileSync(TEMPLATE, "utf8");
+
+// Strip the guide comment, anchored to the pre-<html> preamble. An unanchored
+// "first comment" match consumes the CARDS:START marker instead whenever the
+// guide comment has already been deleted, as the template tells you to do.
+template = template.replace(/(<!DOCTYPE html>\s*)<!--[\s\S]*?-->\s*/i, "$1");
+
+if (!/<!-- CARDS:START[\s\S]*?<!-- CARDS:END -->/.test(template)) {
+  console.error(`Template is missing its CARDS:START / CARDS:END markers: ${TEMPLATE}`);
+  process.exit(1);
+}
+
+const compiled = template
+  .replace(/ *<!-- CARDS:START[\s\S]*?<!-- CARDS:END -->/, `  ${lit(body)}`)
+  .replaceAll("{{PREFIX}}", lit(prefixes[0] || "CP"))
+  .replace("{{COMPILATION_TITLE}}", lit(process.env.CHECKPOINT_TITLE || "Process documentation"))
   .replace("{{TOTAL_COUNT}}", String(cards.length))
   .replace("{{PARTS_COVERED}}", partsCovered)
   .replace("{{COMPILED_DATE}}", new Date().toISOString().slice(0, 10));
+
+// A compiled log that still carries template tokens is broken output. Fail loudly
+// rather than writing a file that reports success and contains no cards.
+const leftover = [...new Set(compiled.match(/\{\{[A-Z_]+\}\}/g) || [])];
+if (leftover.length > 0) {
+  console.error(`Refusing to write: unfilled template tokens remain (${leftover.join(", ")})`);
+  process.exit(1);
+}
 
 writeFileSync(outputFile, compiled);
 

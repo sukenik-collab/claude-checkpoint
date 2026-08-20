@@ -163,6 +163,14 @@ The script sorts by ID, copies each card verbatim, and warns on duplicates or mi
 prefixes. It's the preferred path when it's available because it can't accidentally
 paraphrase a card you already approved.
 
+The cover title defaults to `Process documentation`. Set `CHECKPOINT_TITLE` to give
+the compiled log a name of its own:
+
+```bash
+CHECKPOINT_TITLE="Meridian Labs take-home — process log" \
+  node scripts/compile.mjs ./checkpoints submission-log.html
+```
+
 ---
 
 ## Checkpoint IDs
