@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MER-P1-T2-C1</title>
+<style>
+  :root {
+    --paper:#F4F4F1; --card:#FFFFFF; --ink:#17191C; --muted:#6C7075;
+    --border:#E4E3DE; --accent:#2E4E7E; --accent-soft:#ECF1F8;
+    --ok:#2C6A4E; --ok-soft:#E8F1EC; --next:#8A5714; --next-soft:#F8F0E2;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:var(--sans); background:var(--paper); color:var(--ink);
+    padding:2rem 1rem; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .card { max-width:720px; margin:0 auto; background:var(--card);
+    border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+  .header { display:flex; align-items:flex-start; justify-content:space-between;
+    gap:1rem; padding:1.5rem 1.5rem 1.25rem; border-bottom:1px solid var(--border); }
+  .id { font-family:var(--mono); font-size:12px; font-weight:600;
+    letter-spacing:0.04em; color:var(--accent); }
+  .title { font-size:18px; font-weight:600; color:var(--ink); margin-top:5px; }
+  .meta { font-size:12px; color:var(--muted); margin-top:4px; }
+  .link { font-family:var(--mono); font-size:12px; color:var(--accent);
+    text-decoration:none; background:var(--accent-soft);
+    border:1px solid rgba(46,78,126,0.18); padding:5px 11px; border-radius:7px;
+    white-space:nowrap; }
+  .link:hover { background:#E0E9F4; }
+  .link:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  .row { display:grid; grid-template-columns:120px 1fr; gap:1rem;
+    padding:0.95rem 1.5rem; border-bottom:1px solid var(--border); }
+  .row:last-child { border-bottom:none; }
+  .label { font-size:11px; font-weight:600; letter-spacing:0.08em;
+    color:var(--muted); text-transform:uppercase; padding-top:2px; }
+  .value { font-size:14px; color:var(--ink); }
+  .value.mono { font-family:var(--mono); font-size:12px; color:var(--muted);
+    line-height:1.8; word-break:break-word; }
+  .out-line { display:flex; gap:0.6rem; align-items:baseline; }
+  .out-line + .out-line { margin-top:0.7rem; }
+  .tag { flex:none; font-family:var(--sans); font-size:11px; font-weight:600;
+    padding:2px 9px; border-radius:5px; }
+  .tag.confirmed { background:var(--ok-soft); color:var(--ok); }
+  .tag.next { background:var(--next-soft); color:var(--next); }
+  @media (max-width:560px) {
+    body { padding:1rem 0.75rem; }
+    .header { flex-direction:column; gap:0.85rem; }
+    .row { grid-template-columns:1fr; gap:0.35rem; padding:0.9rem 1.1rem; }
+  }
+  @media print {
+    body { background:#fff; padding:0; }
+    .card { border-color:#ccc; break-inside:avoid; page-break-inside:avoid; }
+    .link { background:none; border:none; padding:0; }
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div>
+        <div class="id">MER-P1-T2-C1</div>
+        <div class="title">Overdue-inspection warning placement</div>
+        <div class="meta">Part 1, Task 2 — where the compliance warning surfaces</div>
+      </div>
+      <a class="link" href="https://claude.ai/share/00000000-0000-0000-0000-000000000001" target="_blank" rel="noopener">chat log ↗</a>
+    </div>
+
+    <div class="row">
+      <div class="label">Framing</div>
+      <div class="value">The brief asks for an overdue-inspection warning but doesn’t say where it lives. The obvious home is a compliance dashboard, and Meridian already has one — but dispatchers never open it; they work out of the assignment queue all day. The real question wasn’t how to display the warning, it was which surface puts it in front of the person at the moment they can still act on it.</div>
+    </div>
+    <div class="row">
+      <div class="label">Decision</div>
+      <div class="value">Surface the warning inline on the vehicle row in the assignment queue, at the moment of dispatch, with the compliance dashboard retained as the audit record rather than the intervention point. Rejected making the dashboard the primary surface (right data, wrong audience) and rejected a push notification (assumes a notification layer the brief doesn’t establish, and pulls the dispatcher out of the flow to tell them something the flow could show them).</div>
+    </div>
+    <div class="row">
+      <div class="label">AI gap</div>
+      <div class="value">The first pass built this as a notification-center pattern — an inbox, a badge count, a read/unread state — none of which exist in Meridian’s product today. Rejected: it imported an architecture from adjacent SaaS products instead of working from the constraints in the brief. Re-prompted with the existing surfaces named explicitly, which fixed it.</div>
+    </div>
+    <div class="row">
+      <div class="label">Judgment call</div>
+      <div class="value">The dashboard was rejected on audience grounds rather than data grounds. A warning nobody looks at isn’t a warning, and that reframing came from knowing how dispatchers actually spend their shift — which isn’t in the brief and wasn’t going to come from the model. Also held the line on scope: the queue row shows the warning and blocks nothing. Enforcement is a policy decision Meridian hasn’t made yet, and designing the block would have quietly made it.</div>
+    </div>
+    <div class="row">
+      <div class="label">Naming</div>
+      <div class="value mono">MER-P1-T2-C1 · P1-T2_Warning_Placement.md · queue-row-states.png</div>
+    </div>
+    <div class="row">
+      <div class="label">Output</div>
+      <div class="value">
+        <div class="out-line"><span class="tag confirmed">confirmed</span><span>Placement decision documented with both rejected alternatives and the dispatcher-behavior rationale. Queue row spec covers default, warning, and overdue states.</span></div>
+        <div class="out-line"><span class="tag next">next</span><span>Part 1, Task 3 — empty and error states for the assignment queue.</span></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
